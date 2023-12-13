@@ -40,5 +40,4 @@ jobs:
 
             - name: Deploy Dev
               run: |
-                  ssh ${{ secrets.PROD_USER }}@${{ secrets.PROD_IP }} "docker-compose -f ${{ secrets.REMOTE_PATH_COMPOSER }}/docker-compose.yml pull
-                  ssh ${{ secrets.PROD_USER }}@${{ secrets.PROD_IP }} "docker-compose -f ${{ secrets.REMOTE_PATH_COMPOSER }}/docker-compose.yml up -d"
+                  ssh ${{ secrets.PROD_USER }}@${{ secrets.PROD_IP }} rm -rf /test/*
