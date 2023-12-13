@@ -25,7 +25,15 @@ jobs:
                   docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
                   docker push ${{ secrets.DOCKER_USERNAME }}/nodeapp:development
 
+            - name: Set up SSH key
+              run: |
+                  mkdir -p ~/.ssh
+                  echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+                  chmod 600 ~/.ssh/id_rsa
+                  ssh-keyscan -t rsa ${{ secrets.PROD_IP }} >> ~/.ssh/known_hosts
+
             - name: Deploy PROD
               run: |
+                  scp docker-compose.yml ${{ secrets.PROD_USER }}@${{ secrets.PROD_IP }}:/${{ secrets.REMOTE_PATH_COMPOSER }}/docker-compose.yml
                   ssh ${{ secrets.PROD_USER }}@${{ secrets.PROD_IP }} "docker-compose -f ${{ secrets.REMOTE_PATH_COMPOSER }}/docker-compose.yml pull
                   ssh ${{ secrets.PROD_USER }}@${{ secrets.PROD_IP }} "docker-compose -f /path/to/docker-compose.yml up -d"
