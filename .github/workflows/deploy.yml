@@ -29,10 +29,10 @@ jobs:
               run: |
                   mkdir -p ~/.ssh
                   echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-                  chmod 600 ~/.ssh/id_rsa
+                  chmod 777 ~/.ssh/id_rsa
                   ssh-keyscan -t rsa ${{ secrets.PROD_IP }} >> ~/.ssh/known_hosts
 
-            - name: Deploy PROD
+            - name: Deploy Dev
               run: |
                   scp docker-compose.yml ${{ secrets.PROD_USER }}@${{ secrets.PROD_IP }}:/${{ secrets.REMOTE_PATH_COMPOSER }}/docker-compose.yml
                   ssh ${{ secrets.PROD_USER }}@${{ secrets.PROD_IP }} "docker-compose -f ${{ secrets.REMOTE_PATH_COMPOSER }}/docker-compose.yml pull
