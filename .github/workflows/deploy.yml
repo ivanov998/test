@@ -36,4 +36,4 @@ jobs:
               run: |
                   scp docker-compose.yml ${{ secrets.PROD_USER }}@${{ secrets.PROD_IP }}:/${{ secrets.REMOTE_PATH_COMPOSER }}/docker-compose.yml
                   ssh ${{ secrets.PROD_USER }}@${{ secrets.PROD_IP }} "docker-compose -f ${{ secrets.REMOTE_PATH_COMPOSER }}/docker-compose.yml pull
-                  ssh ${{ secrets.PROD_USER }}@${{ secrets.PROD_IP }} "docker-compose -f /path/to/docker-compose.yml up -d"
+                  ssh ${{ secrets.PROD_USER }}@${{ secrets.PROD_IP }} "docker-compose -f ${{ secrets.REMOTE_PATH_COMPOSER }}/docker-compose.yml up -d"
